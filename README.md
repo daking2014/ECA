@@ -1,0 +1,4 @@
+ECA
+===
+
+elementary cellular automaton
