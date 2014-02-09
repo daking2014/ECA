@@ -1,10 +1,10 @@
 from optparse import OptionParser
-
+ 
 #options
 parser = OptionParser()
 parser.add_option('-w', '--width',
 					dest='width', default=71,
-					help='The width of the diagram. Must be an even number.')
+					help='The width of the diagram. Must be an odd number.')
 parser.add_option('-r', '--rulenumber',
 					dest='rulenumber', default=90,
 					help='The Wolfram rule number.')
@@ -12,22 +12,24 @@ parser.add_option('-g', '--generations',
 					dest='gens', default=100,
 					help='The number of generations to run for.')
 (options, args) = parser.parse_args()
-
+ 
 #setting options variables
 width = int(options.width)
 rulenumber = int(options.rulenumber)
 gens = int(options.gens)
-
+ 
 """width = 101
 rulenumber = 90
 gens = 100"""
-
+# So can be opened as PBM file in GIMP
+print 'P1 '+str(width)+' '+str(gens)
+ 
 #the initial row
 if width%2 == 0:
 	print "Width must be an odd number!!"
 first_row = ((width - 1) / 2)*'0' + '1' + ((width - 1) / 2)*'0'
 print first_row
-
+ 
 def take_rule(int):
 	binary = []
 	for i in xrange(7,-1,-1):
@@ -48,10 +50,10 @@ def apply_rule(previous, rule):
 			if previous[c-1]:
 				seq1 = previous[c-1]
 			else:
-				seq1 = 0
+				seq1 = previous[width-1]
 			seq2 = previous[c]
 			if c == width-1:
-				seq3 = 0
+				seq3 = previous[0]
 			else:
 				seq3 = previous[c+1]
 			
@@ -60,6 +62,6 @@ def apply_rule(previous, rule):
 			
 			new += str(rule[seq])
 		print new
-
-rule = take_rule(rulenumber)			
+ 
+rule = take_rule(rulenumber)
 apply_rule(first_row, rule)
